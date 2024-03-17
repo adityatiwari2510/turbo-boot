@@ -12,6 +12,7 @@ repository = 'https://github.com/adityatiwari2510/turbo-boot'
 [tool.poetry.dependencies]
 python = "^3.12"
 fastapi = "^0.110.0"
+pyyaml = "^6.0.1"
 
 
 [build-system]

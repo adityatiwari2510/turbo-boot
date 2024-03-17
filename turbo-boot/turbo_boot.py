@@ -4,6 +4,7 @@ import os
 from importlib import import_module
 
 from fastapi import FastAPI
+from config_loader import ConfigLoader
 
 def convert_filename_to_classname(filename):
     if '_' in filename:
@@ -48,3 +49,12 @@ class TurboBoot:
         app = build_application(application_path)
         
         return app
+
+    @staticmethod
+    def get_config_loader(config_file_path: str = None):
+        if config_file_path is None:
+            config_file_path = os.path.join(os.getcwd(), 'resources', 'application.yaml')
+        
+        config_loader = ConfigLoader(config_file_path=config_file_path)
+        
+        return config_loader

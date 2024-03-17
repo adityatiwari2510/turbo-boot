@@ -1,12 +1,13 @@
 [tool.poetry]
 name = "turbo-boot"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["adityatiwari2510 <tiwariaditya45@gmail.com>"]
 readme = "README.md"
 packages = [
     { include = "turbo-boot" }
 ]
+repository = 'https://github.com/adityatiwari2510/turbo-boot'
 
 [tool.poetry.dependencies]
 python = "^3.12"

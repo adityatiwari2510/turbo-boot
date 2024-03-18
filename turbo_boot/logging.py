@@ -6,6 +6,17 @@ from turbo_boot.logging_level import LoggingLevel
 import sys
 import os
 
+def get_boolean(val: str) -> bool:
+    if val is None:
+        return None
+    if len(val.strip()) == 0:
+        return False
+    if val.upper() == "TRUE":
+        return True
+    elif val.upper() == "FALSE":
+        return False
+    return False
+    
 class Logger(metaclass=SingletonMeta):
     def __init__(self, config_loader: ConfigLoader) -> None:
         self.__config_loader = config_loader
@@ -20,31 +31,31 @@ class Logger(metaclass=SingletonMeta):
         self.__setup_file_handler()
         
     def __setup_file_handler(self):
-        if (self.__config_loader.get_config("turbo-boot.file-handler.enabled") or False):
+        if (get_boolean(self.__config_loader.get_config("turbo-boot.logging.file-handler.enabled")) or False):
             logger = self.__logger
-            log_dir = (self.__config_loader.get_config("turbo-boot.file-handler.dir-name") or "./")
+            log_dir = (self.__config_loader.get_config("turbo-boot.logging.file-handler.dir-name") or "./")
             if not os.path.exists(log_dir):
                 try:
                     os.makedirs(log_dir)
                 except:
                     log_dir = '/tmp' if sys.platform.startswith('linux') else '.'
             
-            log_file_name = (self.__config_loader.get_config("turbo-boot.file-handler.file-name") or "app")
+            log_file_name = (self.__config_loader.get_config("turbo-boot.logging.file-handler.file-name") or "app")
             log_file_path = os.path.join(log_dir, log_file_name) + '.log'
             
-            log_file_max_bytes = (self.__config_loader.get_config("turbo-boot.file-handler.max-bytes") or 20000)
-            log_file_backup_count = (self.__config_loader.get_config("turbo-boot.file-handler.backup-count") or 5)
+            log_file_max_bytes = int((self.__config_loader.get_config("turbo-boot.logging.file-handler.max-bytes") or '20000'))
+            log_file_backup_count = int((self.__config_loader.get_config("turbo-boot.logging.file-handler.backup-count") or '5'))
             
             logger.file_handler = RotatingFileHandler(log_file_path, maxBytes=log_file_max_bytes, backupCount=log_file_backup_count)
-            logger.file_handler.setLevel(LoggingLevel[str(self.__config_loader.get_config("turbo-boot.file-handler.level") or self.__global_log_level).upper()])
-            logger.file_handler.setFormatter(logging.Formatter((self.__config_loader.get_config("turbo-boot.file-handler.format") or self.__global_log_format)))
+            logger.file_handler.setLevel(LoggingLevel[str(self.__config_loader.get_config("turbo-boot.logging.file-handler.level") or self.__global_log_level).upper()].value)
+            logger.file_handler.setFormatter(logging.Formatter((self.__config_loader.get_config("turbo-boot.logging.file-handler.format") or self.__global_log_format)))
             logger.addHandler(logger.file_handler)
     
     def __setup_console_handler(self):
-        if (self.__config_loader.get_config("turbo-boot.console-handler.enabled") or True):
+        if (get_boolean(self.__config_loader.get_config("turbo-boot.logging.console-handler.enabled")) or True):
             logger = self.__logger
             logger.stdout_handler = logging.StreamHandler(sys.stdout)
             
-            logger.stdout_handler.setLevel(LoggingLevel[str(self.__config_loader.get_config("turbo-boot.console-handler.level") or self.__global_log_level).upper()])
-            logger.stdout_handler.setFormatter(logging.Formatter((self.__config_loader.get_config("turbo-boot.console-handler.format") or self.__global_log_format)))
+            logger.stdout_handler.setLevel(LoggingLevel[str(self.__config_loader.get_config("turbo-boot.logging.console-handler.level") or self.__global_log_level).upper()].value)
+            logger.stdout_handler.setFormatter(logging.Formatter((self.__config_loader.get_config("turbo-boot.logging.console-handler.format") or self.__global_log_format)))
             logger.addHandler(logger.stdout_handler)

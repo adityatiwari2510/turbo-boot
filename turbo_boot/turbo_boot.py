@@ -49,31 +49,46 @@ def build_application(application_path: str, fast_api_app_configs: Optional[Dict
 
     return app
 
+def get_config_loader(config_file_path: str = None) -> ConfigLoader:
+    if config_file_path is None:
+        config_file_path = os.path.join(os.getcwd(), 'resources', 'application.yaml')
+    
+    config_loader = ConfigLoader(config_file_path=config_file_path)
+    
+    return config_loader
+
+def get_logger(config_loader: ConfigLoader) -> Logger:
+    if config_loader is None:
+        raise ValueError()
+    
+    logger = Logger(config_loader = config_loader)
+    
+    return logger
+
 class TurboBoot:
+    config_loader = None
+    logger = None
+    app = None
     
     @staticmethod
-    def get_app(application_path: str = None, fast_api_app_configs: Optional[Dict[str, Any]] = None):
-        if application_path is None:
-            application_path = os.getcwd()
+    def setup(application_path: str = None, config_file_path: str = None, fast_api_app_configs: Optional[Dict[str, Any]] = None):
+        if application_path is None or len(application_path.strip()) < 1:
+            raise ValueError("application_path can be None or empty")
         
-        app = build_application(application_path, fast_api_app_configs)
+        TurboBoot.config_loader = get_config_loader(config_file_path=config_file_path)
         
-        return app
+        TurboBoot.logger = get_logger(config_loader=TurboBoot.config_loader)
+        
+        TurboBoot.app = build_application(application_path, fast_api_app_configs)
+    
+    @staticmethod
+    def get_logger():
+        return TurboBoot.logger._Logger__logger
 
     @staticmethod
-    def get_config_loader(config_file_path: str = None) -> ConfigLoader:
-        if config_file_path is None:
-            config_file_path = os.path.join(os.getcwd(), 'resources', 'application.yaml')
-        
-        config_loader = ConfigLoader(config_file_path=config_file_path)
-        
-        return config_loader
+    def get_app():
+        return TurboBoot.app
 
     @staticmethod
-    def get_logger(config_loader: ConfigLoader) -> Logger:
-        if config_loader is None:
-            raise ValueError()
-        
-        logger = Logger(config_loader = config_loader)
-        
-        return logger
+    def get_config_loader():
+        return TurboBoot.config_loader

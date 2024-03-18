@@ -27,10 +27,10 @@ class ConfigLoader(metaclass=SingletonMeta):
                 return None
         return self.__substitute_env_variables(value)
 
-    def __substitute_env_variables(value):
+    def __substitute_env_variables(self,value):
         if isinstance(value, str):
-            parts = value.split(':')
-            if len(parts) == 2 and parts[1].startswith('${') and parts[1].endswith('}'):
+            parts = value.split(':$')
+            if len(parts) == 2 and parts[1].startswith('{') and parts[1].endswith('}'):
                 env_var = parts[1][2:-1]
                 return os.environ.get(env_var, parts[0])
         return value

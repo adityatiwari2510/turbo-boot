@@ -1,6 +1,6 @@
 import yaml
 import os
-from singleton_meta import SingletonMeta
+from turbo_boot.singleton_meta import SingletonMeta
 
 class ConfigLoader(metaclass=SingletonMeta):
     def __init__(self, config_file_path: str) -> None:

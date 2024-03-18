@@ -1,10 +1,9 @@
 import os
 import inspect
-import os
 from importlib import import_module
 
 from fastapi import FastAPI
-from config_loader import ConfigLoader
+from turbo_boot.config_loader import ConfigLoader
 
 def convert_filename_to_classname(filename):
     if '_' in filename:

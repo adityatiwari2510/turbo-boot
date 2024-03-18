@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "turbo-boot"
+name = "turbo_boot"
 version = "0.1.2"
 description = ""
 authors = ["adityatiwari2510 <tiwariaditya45@gmail.com>"]
 readme = "README.md"
 packages = [
-    { include = "turbo-boot" }
+    { include = "turbo_boot" }
 ]
 repository = 'https://github.com/adityatiwari2510/turbo-boot'
 

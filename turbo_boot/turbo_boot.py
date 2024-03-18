@@ -5,6 +5,9 @@ from importlib import import_module
 from fastapi import FastAPI
 from turbo_boot.config_loader import ConfigLoader
 from turbo_boot.logging import Logger
+from typing import Optional, Dict
+
+Any = object()
 
 def convert_filename_to_classname(filename):
     if '_' in filename:
@@ -14,11 +17,18 @@ def convert_filename_to_classname(filename):
         return class_name
     return filename
 
-def build_application(application_path: str):
+def build_application(application_path: str, fast_api_app_configs: Optional[Dict[str, Any]] = None):
     if application_path is None:
         raise ValueError("application_path can not be None")
     
-    app = FastAPI()
+    arguments_to_remove = ['self']
+    argument_list = list(inspect.signature(FastAPI.__init__).parameters.keys())
+    filtered_arguments = [arg for arg in argument_list if arg not in arguments_to_remove]
+    parameters = {}
+    for argument in filtered_arguments:
+        if argument in fast_api_app_configs:
+            parameters[argument] = fast_api_app_configs[argument]
+    app = FastAPI(**parameters)
     
     for root, dirs, files in os.walk(application_path):
         for file in files:
@@ -42,11 +52,11 @@ def build_application(application_path: str):
 class TurboBoot:
     
     @staticmethod
-    def get_app(application_path: str = None):
+    def get_app(application_path: str = None, fast_api_app_configs: Optional[Dict[str, Any]] = None):
         if application_path is None:
             application_path = os.getcwd()
         
-        app = build_application(application_path)
+        app = build_application(application_path, fast_api_app_configs)
         
         return app
 

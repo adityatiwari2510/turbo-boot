@@ -10,8 +10,8 @@ def convert_filename_to_classname(filename):
         words = filename.split('_')
         capitalized_words = [word.capitalize() for word in words]
         class_name = ''.join(capitalized_words)
-        return class_name[:-3]
-    return filename[:-3]
+        return class_name
+    return filename
 
 def build_application(application_path: str):
     if application_path is None:
@@ -21,7 +21,7 @@ def build_application(application_path: str):
     
     for root, dirs, files in os.walk(application_path):
         for file in files:
-            if file.endswith('.py') and not file.startswith('__'):
+            if file.endswith('.py') and not file.startswith('__') and file != "main.py":
                 module_name = os.path.relpath(os.path.join(root, file), application_path)
                 module_name = module_name.replace(os.path.sep, '.')[:-3]
                 

@@ -4,6 +4,7 @@ from importlib import import_module
 
 from fastapi import FastAPI
 from turbo_boot.config_loader import ConfigLoader
+from turbo_boot.logging import Logger
 
 def convert_filename_to_classname(filename):
     if '_' in filename:
@@ -50,10 +51,19 @@ class TurboBoot:
         return app
 
     @staticmethod
-    def get_config_loader(config_file_path: str = None):
+    def get_config_loader(config_file_path: str = None) -> ConfigLoader:
         if config_file_path is None:
             config_file_path = os.path.join(os.getcwd(), 'resources', 'application.yaml')
         
         config_loader = ConfigLoader(config_file_path=config_file_path)
         
         return config_loader
+
+    @staticmethod
+    def get_logger(config_loader: ConfigLoader) -> Logger:
+        if config_loader is None:
+            raise ValueError()
+        
+        logger = Logger(config_loader = config_loader)
+        
+        return logger

@@ -1,5 +1,5 @@
 from turbo_boot.singleton_meta import SingletonMeta
-from turbo_boot.config_loader import application_config, ConfigLoader
+from turbo_boot.config_loader import ConfigLoader
 import logging
 from logging.handlers import RotatingFileHandler
 from turbo_boot.logging_level import LoggingLevel
@@ -74,5 +74,3 @@ class Logger(metaclass=SingletonMeta):
     
     def critical(self, log_msg):
         self.__logger.critical(log_msg)
-        
-logger = Logger(application_config)

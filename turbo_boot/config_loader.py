@@ -44,5 +44,3 @@ class ConfigLoader(metaclass=SingletonMeta):
                 env_var = parts[1][2:-1]
                 return os.environ.get(env_var, parts[0])
         return value
-
-application_config = ConfigLoader()

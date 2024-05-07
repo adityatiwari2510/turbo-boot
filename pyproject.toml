@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "turbo_boot"
-version = "0.1.6"
+version = "0.1.7"
 description = ""
 authors = ["adityatiwari2510 <tiwariaditya45@gmail.com>"]
 readme = "README.md"

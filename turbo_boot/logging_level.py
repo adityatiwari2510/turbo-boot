@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class LoggingLevel(Enum):
     NOSET = 0
     DEBUG = 10

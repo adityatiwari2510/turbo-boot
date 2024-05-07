@@ -1,5 +1,5 @@
 from turbo_boot.singleton_meta import SingletonMeta
-from turbo_boot.config_loader import ConfigLoader
+from turbo_boot.config_loader import application_config, ConfigLoader
 import logging
 from logging.handlers import RotatingFileHandler
 from turbo_boot.logging_level import LoggingLevel
@@ -59,3 +59,20 @@ class Logger(metaclass=SingletonMeta):
             logger.stdout_handler.setLevel(LoggingLevel[str(self.__config_loader.get_config("turbo-boot.logging.console-handler.level") or self.__global_log_level).upper()].value)
             logger.stdout_handler.setFormatter(logging.Formatter((self.__config_loader.get_config("turbo-boot.logging.console-handler.format") or self.__global_log_format)))
             logger.addHandler(logger.stdout_handler)
+
+    def info(self, log_msg):
+        self.__logger.info(log_msg)
+    
+    def warning(self, log_msg):
+        self.__logger.warning(log_msg)
+        
+    def debug(self, log_msg):
+        self.__logger.debug(log_msg)
+    
+    def error(self, log_msg):
+        self.__logger.error(log_msg)
+    
+    def critical(self, log_msg):
+        self.__logger.critical(log_msg)
+        
+logger = Logger(application_config)

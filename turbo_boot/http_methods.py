@@ -1,17 +1,19 @@
 from functools import wraps
 
+
 def validate_path(path: str):
     if path is None or len(path.strip()) < 1:
         raise ValueError("Path cannot be None or empty")
 
     if path is not None:
-        if not path.startswith('/'):
+        if not path.startswith("/"):
             raise ValueError("Path must start with '/'")
+
 
 def GetMapping(path: str, **kwargs):
     validate_path(path=path)
-            
-    def decorator(func):        
+
+    def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             return func(*args, **kwargs)
@@ -21,10 +23,11 @@ def GetMapping(path: str, **kwargs):
 
     return decorator
 
+
 def PostMapping(path: str, **kwargs):
     validate_path(path=path)
-            
-    def decorator(func):        
+
+    def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             return func(*args, **kwargs)
@@ -34,10 +37,11 @@ def PostMapping(path: str, **kwargs):
 
     return decorator
 
+
 def PutMapping(path: str, **kwargs):
     validate_path(path=path)
-            
-    def decorator(func):        
+
+    def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             return func(*args, **kwargs)
@@ -50,8 +54,8 @@ def PutMapping(path: str, **kwargs):
 
 def DeleteMapping(path: str, **kwargs):
     validate_path(path=path)
-            
-    def decorator(func):        
+
+    def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             return func(*args, **kwargs)
@@ -61,10 +65,11 @@ def DeleteMapping(path: str, **kwargs):
 
     return decorator
 
+
 def OptionsMapping(path: str, **kwargs):
     validate_path(path=path)
-            
-    def decorator(func):        
+
+    def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             return func(*args, **kwargs)
@@ -74,10 +79,11 @@ def OptionsMapping(path: str, **kwargs):
 
     return decorator
 
+
 def HeadMapping(path: str, **kwargs):
     validate_path(path=path)
-            
-    def decorator(func):        
+
+    def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             return func(*args, **kwargs)
@@ -87,10 +93,11 @@ def HeadMapping(path: str, **kwargs):
 
     return decorator
 
+
 def PatchMapping(path: str, **kwargs):
     validate_path(path=path)
-            
-    def decorator(func):        
+
+    def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             return func(*args, **kwargs)
@@ -100,10 +107,11 @@ def PatchMapping(path: str, **kwargs):
 
     return decorator
 
+
 def TraceMapping(path: str, **kwargs):
     validate_path(path=path)
-            
-    def decorator(func):        
+
+    def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             return func(*args, **kwargs)
